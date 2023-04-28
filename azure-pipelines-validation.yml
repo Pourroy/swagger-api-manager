@@ -1,0 +1,62 @@
+trigger:
+  - validation
+
+resources:
+  containers:
+    - container: builder
+      image: locawebci/ea-op-ful-cloud-ruby-test:3.0.3-latest
+      endpoint: docker-registry
+
+stages:
+  - stage: TestAndQuality
+    displayName: "Tests and Quality"
+    jobs:
+      - job: Test
+        pool: LW.Private.Agents
+        displayName: "Test"
+        container: builder
+        steps:
+          - script: bundle install --retry=3 --jobs=8
+            displayName: "Bundle install"
+            target:
+              container: builder
+
+          - script: |
+              RAILS_ENV=test bundle exec rubocop
+            displayName: "Linter (rubocop)"
+            continueOnError: no
+            target:
+              container: builder
+
+          - script: |
+              RAILS_ENV=test bundle exec brakeman -z
+            displayName: "Brakeman"
+            continueOnError: no
+            target:
+              container: builder
+
+          - script: |
+              RAILS_ENV=test COVERAGE=on bundle exec rspec --format RspecJunitFormatter --out test-results/rspec.xml
+            displayName: "Execute rspec"
+            continueOnError: no
+            target:
+              container: builder
+
+          - task: UseDotNet@2
+            displayName: "Use .NET Core SDK"
+            inputs:
+              packageType: sdk
+              version: 2.2.203
+              installationPath: $(Agent.ToolsDirectory)/dotnet
+
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFiles: "test-results/rspec.xml"
+              testRunTitle: "Ruby tests"
+
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
+              reportDirectory: "$(System.DefaultWorkingDirectory)/**/coverage"

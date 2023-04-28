@@ -1,0 +1,407 @@
+openapi: 3.0.3
+
+info:
+  version: 1.0.0
+  title: Control API
+  description: |-
+    Fulfillment Cloud - Control API
+
+    Some useful links:
+    - [Repository](https://dev.azure.com/locaweb/apps-ea-op-svc-ful-cloud/_git/ea-op-ful-cloud-control-api)
+    - [Wiki](https://dev.azure.com/locaweb/apps-ea-op-svc-ful-cloud/_wiki/wikis/apps-ea-op-svc-ful-cloud.wiki/7733/Create-Control)
+  contact:
+    email: luiz.fel@locaweb.com.br
+    x-technical-owner: 'ruan.afonso@locaweb.com.br'
+
+servers:
+  - url: http://10.90.138.20/ea/operational/fulfillment/v1
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /cloud/controls:
+    get:
+      tags:
+        - Controls
+      summary: Find Controls
+      description: List Controls
+      operationId: controlList
+      parameters:
+        - $ref: '#/components/parameters/applicationId'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/vmName'
+        - $ref: '#/components/parameters/statusId'
+        - $ref: '#/components/parameters/stageId'
+        - $ref: '#/components/parameters/pipelineId'
+        - $ref: '#/components/parameters/sourceApplicationId'
+        - $ref: '#/components/parameters/startDate'
+        - $ref: '#/components/parameters/endDate'
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/controls/cloud-inits:
+    post:
+      tags:
+        - Controls
+      summary: Validate CloudInits
+      description: Validate CloudInit end
+      operationId: cloudInitPost
+      parameters:
+        - $ref: '#/components/parameters/applicationId'
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        404:
+          $ref: '#/components/responses/404-NotFound'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/controls/{transactionId}:
+    put:
+      tags:
+        - Controls
+      summary: Update Controls
+      description: Update data from controls.
+      operationId: controlUpdate
+      parameters:
+        - $ref: '#/components/parameters/applicationId'
+        - $ref: '#/components/parameters/transactionId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Update'
+        required: true
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/controls/{transactionId}/histories:
+    get:
+      tags:
+        - Control Histories
+      summary: Find Histories by transactionId
+      description: List Control Histories
+      operationId: controlLogs
+      parameters:
+        - $ref: '#/components/parameters/applicationId'
+        - $ref: '#/components/parameters/transactionId'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/controls-histories/{id}:
+    get:
+      tags:
+        - Control Histories
+      summary: Find History by id
+      description: List Control
+      operationId: controlHistoryList
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/controls/info:
+    get:
+      tags:
+        - Info
+      summary: API info
+      operationId: infoGet
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/templates:
+    get:
+      tags:
+        - Templates
+      summary: Find Templates
+      description: List Templates
+      operationId: templateList
+      parameters:
+        - $ref: '#/components/parameters/applicationId'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/templateStatus'
+        - $ref: '#/components/parameters/startDate'
+        - $ref: '#/components/parameters/endDate'
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+  /cloud/templates/statuses:
+    get:
+      tags:
+        - Templates
+      summary: Find Templates Statuses
+      description: List Templates Statuses
+      operationId: templateStatusesList
+      parameters:
+        - $ref: '#/components/parameters/applicationId'
+      responses:
+        200:
+          $ref: '#/components/responses/200-Ok'
+        400:
+          $ref: '#/components/responses/400-BadRequest'
+        401:
+          $ref: '#/components/responses/401-Unauthorized'
+        403:
+          $ref: '#/components/responses/403-Forbidden'
+        500:
+          $ref: '#/components/responses/500-Exception'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Service-Ticket
+  parameters:
+    applicationId:
+      in: header
+      name: X-Application-Id
+      required: true
+      schema:
+        type: string
+      description: Id of the Application that is using the API.
+    id:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: The id of the item.
+    page:
+      in: query
+      name: page
+      required: true
+      schema:
+        type: integer
+      description: Number of the Page.
+    pageSize:
+      in: query
+      name: pageSize
+      required: true
+      schema:
+        type: integer
+      description: Size of the Page.
+    startDate:
+      in: query
+      name: startDate
+      required: true
+      schema:
+        type: string
+      description: The start period of search.
+    endDate:
+      in: query
+      name: endDate
+      required: true
+      schema:
+        type: string
+      description: The final period of search.
+    statusId:
+      in: query
+      name: statusId
+      required: false
+      schema:
+        type: string
+      description: The status of the control.
+    templateStatus:
+      in: query
+      name: templateStatus
+      required: false
+      schema:
+        type: string
+      description: The status of the template.
+    vmName:
+      in: query
+      name: vmName
+      required: false
+      schema:
+        type: string
+      description: Name of the virtual Machine.
+    transactionId:
+      in: path
+      name: transactionId
+      required: true
+      schema:
+        type: string
+      description: Trasaction Id.
+    stageId:
+      in: query
+      name: stageId
+      required: false
+      schema:
+        type: string
+      description: Stage Id.
+    pipelineId:
+      in: query
+      name: pipelineId
+      required: false
+      schema:
+        type: string
+      description: Pipeline Id.
+    sourceApplicationId:
+      in: query
+      name: sourceApplicationId
+      required: false
+      schema:
+        type: string
+      description: The id of the Source Application.
+  responses:
+    200-Ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiSuccess'
+    400-BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    401-Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    403-Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    404-NotFound:
+      description: NotFound
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    500-Exception:
+      description: Exception
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+  schemas:
+    Update:
+      type: object
+      title: Update
+      description: 'Update Control'
+      properties:
+        justifyResend:
+          description: 'Justify Resend'
+          type: string
+          example: 'Retry'
+        userResend:
+          description: 'User Resend'
+          type: string
+          example: 'network'
+        payload:
+          description: 'Payload'
+          type: string
+          example: '{}'
+    ApiSuccess:
+      title: ApiSuccess
+      description: 'Success API Response'
+      type: object
+      properties:
+        code:
+          type: string
+          description: 'Code'
+        description:
+          type: string
+          description: 'Description'
+        message:
+          type: string
+          description: 'Message'
+        data:
+          type: object
+          description: 'Data'
+    ApiError:
+      title: ApiError
+      description: 'Error API response'
+      type: object
+      properties:
+        code:
+          type: string
+          description: 'Internal error ID'
+        description:
+          type: string
+          description: 'Detailed error description'
+        errors:
+          type: array
+          description: 'List of errors'
+          items:
+            $ref: '#/components/schemas/Error'
+        message:
+          type: string
+          description: 'Basic message error'
+    Error:
+      type: object
+      title: Error
+      description: 'Error Enitity'
+      properties:
+        code:
+          type: string
+          description: 'Id of the technical exception'
+        message:
+          type: string
+          description: 'Technical message'
+        nativeMessage:
+          type: string
+          description: 'Native error message'
+        trackid:
+          type: string
+          description: 'Track id of transaction process'

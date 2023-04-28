@@ -1,0 +1,96 @@
+trigger:
+  tags:
+    include:
+      - "*"
+  branches:
+    include:
+      - "main"
+
+variables:
+- name: namespace
+  value: cloud
+
+- name: registryServiceConnection
+  value: docker-registry
+
+- name: organizationRegistry
+  value: locawebci
+
+- name: applicationName
+  value: $(Build.Repository.Name)
+
+- name: environment
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    value: qa
+  ${{ else }}:
+    value: prod
+
+- name: tag
+  ${{ if eq(variables['environment'], 'qa') }}:
+    value: $(environment)-$(Build.BuildId)
+  ${{ else }}:
+    value: $(Build.SourceBranchName)
+
+- name: k8sEnvironment
+  value: env-k8s-internal-apps-$(environment).cloud
+
+- name: k8sPath
+  value: k8s/$(environment)
+
+stages:
+- stage: ContinuousIntegration
+  displayName: 'Continuous Integration'
+  jobs:
+  - job: BuildAndPushImageDocker
+    displayName: 'Build And Push Image Docker'
+    pool: LW.Private.Agents
+    steps:
+      - task: Docker@2
+        displayName: Environment Qa
+        condition: eq(variables['environment'], 'qa')
+        continueOnError: no
+        inputs:
+          containerRegistry: $(registryServiceConnection)
+          repository: $(organizationRegistry)/$(applicationName)
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(tag)
+            $(environment)-latest
+
+      - task: Docker@2
+        displayName: Environment Production
+        condition: eq(variables['environment'], 'prod')
+        continueOnError: no
+        inputs:
+          containerRegistry: $(registryServiceConnection)
+          repository: $(organizationRegistry)/$(applicationName)
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(tag)
+
+- stage: ContinuousDelivery
+  displayName: 'Continuous Delivery'
+  dependsOn: ContinuousIntegration
+
+  jobs:
+  - deployment: Deploy
+    displayName: 'Deploy'
+    pool: LW.Private.Agents
+    environment: $(k8sEnvironment)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            clean: true
+            displayName : Checkout repository
+
+          - task: KubernetesManifest@0
+            displayName: 'Kubernetes Apply'
+            inputs:
+              action: 'deploy'
+              namespace: '$(namespace)'
+              manifests: '$(k8sPath)/*'
+              containers: '$(organizationRegistry)/$(applicationName):$(tag)'

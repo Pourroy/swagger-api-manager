@@ -1,0 +1,1054 @@
+openapi: 3.0.3
+
+info:
+  version: 1.0.0
+  title: Virtual Machine API
+  description: |-
+    Fulfillment Cloud - Virtual Machine API
+
+    Some useful links:
+    - [Repository](https://dev.azure.com/locaweb/apps-ea-op-fulfillment/_git/ea-op-ful-cloud-swagger-fe)
+    - [Wiki](https://dev.azure.com/locaweb/apps-ea-op-fulfillment/_wiki/wikis/apps-ea-op-fulfillment.wiki/9331/Swagger)
+  contact:
+    email: luiz.fel@locaweb.com.br
+    x-technical-owner: "ruan.afonso@locaweb.com.br"
+
+servers:
+  - url: http://10.90.138.20/ea/operational/fulfillment/v1
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /cloud/vms:
+    get:
+      tags:
+        - Virtual Machine
+      summary: Find virtual machines
+      description: List the virtual machines.
+      operationId: vmList
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/companyId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/productName"
+        - $ref: "#/components/parameters/account"
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/metrics:
+    get:
+      tags:
+        - Virtual Machine
+      summary: Metrics of virtual machines
+      description: Metrics from the virtual machines.
+      operationId: vmMetric
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+        - $ref: "#/components/parameters/startDate"
+        - $ref: "#/components/parameters/endDate"
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/console:
+    get:
+      tags:
+        - Virtual Machine
+      summary: Console's URL of a virtual machine
+      description: The URL for the console from a named virtual machine
+      operationId: vmConsole
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}:
+    get:
+      tags:
+        - Virtual Machine
+      summary: Details of virtual machines
+      description: Details from the virtual machines.
+      operationId: vmDetail
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+    put:
+      tags:
+        - Virtual Machine
+      summary: Update virtual machine
+      description: Updates properties of a virtual machine.
+      operationId: vmPut
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VmUpdate"
+        required: true
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+    delete:
+      tags:
+        - Virtual Machine
+      summary: Delete virtual machine
+      description: Destroys a virtual machine.
+      operationId: vmDelete
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/install:
+    post:
+      tags:
+        - Virtual Machine
+      summary: Install virtual machine
+      description: Install and automatically starts a virtual machine.
+      operationId: vmsInstallPost
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/companyId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VmInstall"
+        required: true
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/reinstall:
+    post:
+      tags:
+        - Virtual Machine
+      summary: Reinstall virtual machine
+      description: Reinstall and automatically starts a virtual machine.
+      operationId: vmsReinstallPost
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VmReinstall"
+        required: true
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/additional-ip:
+    post:
+      tags:
+        - Virtual Machine
+      summary: Create an additional-ip
+      description: Create an additional-ip on the named machine
+      operationId: vmsAdditonalIpPost
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+    delete:
+      tags:
+        - Virtual Machine
+      summary: Delete an additional-ip
+      description: Delete an additional-ip on the named machine
+      operationId: vmsAdditonalIpDelete
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+
+  /cloud/vms/{name}/network-backup:
+    post:
+      tags:
+        - Virtual Machine
+      summary: Add the Virtual Machine to Backup Network
+      description: Add the Virtual Machine to Backup Network
+      operationId: Backup
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+    delete:
+      tags:
+        - Virtual Machine
+      summary: Remove the Virtual Machine to Backup Network
+      description: Remove the Virtual Machine from Backup Network
+      operationId: Backup
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/images:
+    get:
+      tags:
+        - Image
+      summary: Find Images
+      description: Lists all available ISO files.
+      operationId: ImageGet
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/images/{id}/attach:
+    post:
+      tags:
+        - Image
+      summary: Attach image to a virtual machine
+      description: Attaches ISO to a virtual machine.
+      operationId: ImagePostAttach
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+        - $ref: "#/components/parameters/imageId"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/images/detach:
+    post:
+      tags:
+        - Image
+      summary: Detach Image to a virtual machine
+      description: Detaches any ISO file (if any) currently attached to a virtual machine.
+      operationId: ImagePostDetach
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/snapshots:
+    get:
+      tags:
+        - Snapshot
+      summary: Find Snapshots by id
+      description: Lists all available snapshots of the virtual machine.
+      operationId: SnapshotGet
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+    post:
+      tags:
+        - Snapshot
+      summary: Create snapshot
+      description: Creates snapshot for a virtual machine.
+      operationId: SnapshotPostCreate
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/snapshots/{id}/restore:
+    post:
+      tags:
+        - Snapshot
+      summary: Restore snapshot
+      description: Revert virtual machine from a vmsnapshot.
+      operationId: SnapshotPostRestore
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+        - $ref: "#/components/parameters/snapshotId"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/vms/{name}/snapshots/{id}:
+    delete:
+      tags:
+        - Snapshot
+      summary: Delete a snapshot
+      description: Deletes a snapshot of a disk volume.
+      operationId: SnapshotDelete
+      parameters:
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/name"
+        - $ref: "#/components/parameters/snapshotId"
+      responses:
+        202:
+          $ref: "#/components/responses/202-Accepted"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+  /cloud/info:
+    get:
+      tags:
+        - Info
+      summary: API info
+      operationId: infoGet
+      responses:
+        200:
+          $ref: "#/components/responses/200-Ok"
+        400:
+          $ref: "#/components/responses/400-BadRequest"
+        401:
+          $ref: "#/components/responses/401-Unauthorized"
+        403:
+          $ref: "#/components/responses/403-Forbidden"
+        404:
+          $ref: "#/components/responses/404-NotFound"
+        500:
+          $ref: "#/components/responses/500-Exception"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Service-Ticket
+  parameters:
+    applicationId:
+      in: header
+      name: X-Application-Id
+      required: true
+      schema:
+        type: string
+      description: Id of the Application that is using the API.
+    companyId:
+      in: header
+      name: X-Company-Id
+      required: true
+      schema:
+        type: string
+      description: Id of the company that is using the API.
+    imageId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: Id of the Image.
+    snapshotId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: Id of the Snapshot.
+    name:
+      in: path
+      name: name
+      required: true
+      schema:
+        type: string
+      description: Name of the virtual machine.
+    page:
+      in: query
+      name: page
+      required: true
+      schema:
+        type: integer
+      description: Number of the Page.
+    pageSize:
+      in: query
+      name: pageSize
+      required: true
+      schema:
+        type: integer
+      description: Size of the Page.
+    startDate:
+      in: query
+      name: startDate
+      required: true
+      schema:
+        type: string
+      description: The start period of search.
+    endDate:
+      in: query
+      name: endDate
+      required: true
+      schema:
+        type: string
+      description: The final period of search.
+    productName:
+      in: query
+      name: productName
+      required: true
+      schema:
+        type: string
+      description: The product name.
+    account:
+      in: query
+      name: account
+      required: true
+      schema:
+        type: string
+      description: Account of the Customer.
+  responses:
+    200-Ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiSuccess"
+    202-Accepted:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiSuccess"
+    400-BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BadRequest"
+    401-Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Unauthorized"
+    403-Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Forbidden"
+    404-NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotFound"
+    500-Exception:
+      description: Exception
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Exception"
+  schemas:
+    VmUpdate:
+      type: object
+      title: VmUpdate
+      description: "Vm Entity"
+      properties:
+        properties:
+          $ref: "#/components/schemas/UpdateProperties"
+        tags:
+          $ref: "#/components/schemas/UpdateTags"
+    VmInstall:
+      type: object
+      title: VmInstall
+      description: "Vm Entity"
+      properties:
+        account:
+          description: "client account"
+          type: string
+          example: "swaggerteste"
+        productName:
+          description: "Product name"
+          type: string
+          example: "VPS"
+        tags:
+          $ref: "#/components/schemas/Tags"
+        properties:
+          $ref: "#/components/schemas/InstallProperties"
+    VmReinstall:
+      type: object
+      title: VmReinstall
+      description: "Vm Entity"
+      properties:
+        properties:
+          $ref: "#/components/schemas/ReinstallProperties"
+    Tags:
+      type: object
+      title: Tags
+      description: "Item Tags"
+      properties:
+        customerId:
+          description: "Client Id"
+          type: string
+          example: "99639141002413"
+        provisioningId:
+          description: "Provisioning id"
+          type: string
+          example: "913"
+        signatureId:
+          description: "Signature id"
+          type: string
+          example: "1"
+    UpdateTags:
+      type: object
+      title: UpdateTags
+      description: "Item Tags"
+      properties:
+        provisioningId:
+          description: "Provisioning id"
+          type: string
+          example: "913"
+        signatureId:
+          description: "Signature id"
+          type: string
+          example: "1"
+    ReinstallProperties:
+      type: object
+      title: ReinstallProperties
+      description: "Item Properties"
+      properties:
+        userData:
+          description: "User data"
+          type: string
+          example: "receita"
+        storageProfile:
+          $ref: "#/components/schemas/ReinstallStorageProfile"
+        osProfile:
+          $ref: "#/components/schemas/OsProfile"
+    InstallProperties:
+      type: object
+      title: InstallProperties
+      description: "Item Properties"
+      properties:
+        userData:
+          description: "User data"
+          type: string
+          example: "receita"
+        hardwareProfile:
+          $ref: "#/components/schemas/HardwareProfile"
+        storageProfile:
+          $ref: "#/components/schemas/InstallStorageProfile"
+        osProfile:
+          $ref: "#/components/schemas/OsProfile"
+    UpdateProperties:
+      type: object
+      title: UpdateProperties
+      description: "Item Properties"
+      properties:
+        state:
+          description: "State"
+          type: string
+          example: "off"
+        reboot:
+          description: "Reboot"
+          type: string
+          example: "true"
+        hardwareProfile:
+          $ref: "#/components/schemas/HardwareProfile"
+        storageProfile:
+          $ref: "#/components/schemas/InstallStorageProfile"
+        osProfile:
+          $ref: "#/components/schemas/OsProfile"
+    HardwareProfile:
+      type: object
+      title: HardwareProfile
+      description: "Item HardwareProfile"
+      properties:
+        vmSizeProperties:
+          $ref: "#/components/schemas/VmSizeProperties"
+    ReinstallStorageProfile:
+      type: object
+      title: ReinstallStorageProfile
+      description: "Item StorageProfile"
+      properties:
+        imageReference:
+          $ref: "#/components/schemas/ImageReference"
+    InstallStorageProfile:
+      type: object
+      title: InstallStorageProfile
+      description: "Item StorageProfile"
+      properties:
+        imageReference:
+          $ref: "#/components/schemas/ImageReference"
+        osDisk:
+          $ref: "#/components/schemas/OsDisk"
+    OsProfile:
+      type: object
+      title: OsProfile
+      description: "Item OsProfile"
+      properties:
+        access:
+          $ref: "#/components/schemas/Access"
+    Access:
+      type: object
+      title: Access
+      description: "Item Access"
+      properties:
+        type:
+          description: "Type"
+          type: string
+          example: "key"
+        key:
+          description: "Key"
+          type: string
+          example: "aW5pY2lhbDEyMzQ=\n"
+    VmSizeProperties:
+      type: object
+      title: VmSizeProperties
+      description: "Item VmSizeProperties"
+      properties:
+        cpuCore:
+          description: "Cpu Number"
+          type: integer
+          example: 1
+        memoryMB:
+          description: "Memory"
+          type: integer
+          example: 512
+    ImageReference:
+      type: object
+      title: ImageReference
+      description: "Item ImageReference"
+      properties:
+        templateName:
+          description: "Template to be installed"
+          type: string
+          example: "CENTOS_7"
+    OsDisk:
+      type: object
+      title: OsDisk
+      description: "Item OsDisk"
+      properties:
+        diskSizeGB:
+          description: "Size of disk"
+          type: integer
+          example: 30
+    ApiSuccess:
+      title: ApiSuccess
+      description: "Success API Response"
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "Code"
+          example: 202
+        description:
+          type: string
+          description: "Description"
+          example: "Accepted"
+        message:
+          type: string
+          description: "Message"
+          example: "Success"
+        data:
+          type: object
+          description: "Data"
+          example: { "transactionId": "5d08fab5cac7f38c9f65056ec7b97fc5", "X-Application-Id": "cloud", "vmName": "qavps0000" }
+    Forbidden:
+      title: Forbidden
+      description: "Error API response"
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "Internal error ID"
+          example: 403
+        description:
+          type: string
+          description: "Detailed error description"
+          example: "Forbidden"
+        errors:
+          type: array
+          description: "List of errors"
+          items:
+            $ref: "#/components/schemas/ForbiddenError"
+        message:
+          type: string
+          description: "Basic message error"
+          example: "You don't have permission to access this service"
+    ForbiddenError:
+      type: object
+      title: ForbiddenError
+      description: "Error Enitity"
+      properties:
+        code:
+          type: string
+          description: "Id of the technical exception"
+          example: 403
+        message:
+          type: string
+          description: "Technical message"
+          example: "Forbidden"
+        nativeMessage:
+          type: string
+          description: "Native error message"
+          example: "You don't have permission to access this service"
+        trackid:
+          type: string
+          description: "Track id of transaction process"
+          example: "CAS/cassete/backtrace/error:43"
+    BadRequest:
+      title: BadRequest
+      description: "Error API response"
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "Internal error ID"
+          example: 400
+        description:
+          type: string
+          description: "Detailed error description"
+          example: "Bad Request"
+        errors:
+          type: array
+          description: "List of errors"
+          items:
+            $ref: "#/components/schemas/BadRequestError"
+        message:
+          type: string
+          description: "Basic message error"
+          example: "Data input not supplied or invalid."
+    BadRequestError:
+      type: object
+      title: BadRequestError
+      description: "Error Enitity"
+      properties:
+        code:
+          type: string
+          description: "Id of the technical exception"
+          example: 400
+        message:
+          type: string
+          description: "Technical message"
+          example: "is missing"
+        nativeMessage:
+          type: string
+          description: "Native error message"
+          example: "is missing"
+        trackid:
+          type: string
+          description: "Track id of transaction process"
+          example: "network/ip/useQuarentena"
+    Unauthorized:
+      title: Unauthorized
+      description: "Error API response"
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "Internal error ID"
+          example: 401
+        description:
+          type: string
+          description: "Detailed error description"
+          example: "Unauthorized"
+        errors:
+          type: array
+          description: "List of errors"
+          items:
+            $ref: "#/components/schemas/UnauthorizedError"
+        message:
+          type: string
+          description: "Basic message error"
+          example: "You are not allowed."
+    UnauthorizedError:
+      type: object
+      title: UnauthorizedError
+      description: "Error Enitity"
+      properties:
+        code:
+          type: string
+          description: "Id of the technical exception"
+          example: 401
+        message:
+          type: string
+          description: "Technical message"
+          example: "not allowed"
+        nativeMessage:
+          type: string
+          description: "Native error message"
+          example: "not allowed"
+        trackid:
+          type: string
+          description: "Track id of transaction process"
+          example: "CAS/cassete/backtrace/error:51"
+    NotFound:
+      title: NotFound
+      description: "Error API response"
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "Internal error ID"
+          example: 404
+        description:
+          type: string
+          description: "Detailed error description"
+          example: "NotFound"
+        errors:
+          type: array
+          description: "List of errors"
+          items:
+            $ref: "#/components/schemas/NotFoundError"
+        message:
+          type: string
+          description: "Basic message error"
+          example: "Data not found."
+    NotFoundError:
+      type: object
+      title: NotFoundError
+      description: "Error Enitity"
+      properties:
+        code:
+          type: string
+          description: "Id of the technical exception"
+          example: 404
+        message:
+          type: string
+          description: "Technical message"
+          example: "data not found."
+        nativeMessage:
+          type: string
+          description: "Native error message"
+          example: "data not found."
+        trackid:
+          type: string
+          description: "Track id of transaction process"
+          example: "rails/api/backtrace/error:63"
+    Exception:
+      title: Exception
+      description: "Error API response"
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "Internal error ID"
+          example: 500
+        description:
+          type: string
+          description: "Detailed error description"
+          example: "Exception"
+        errors:
+          type: array
+          description: "List of errors"
+          items:
+            $ref: "#/components/schemas/ExceptionError"
+        message:
+          type: string
+          description: "Basic message error"
+          example: "no implicit conversion of String into Integer"
+    ExceptionError:
+      type: object
+      title: ExceptionError
+      description: "Error Enitity"
+      properties:
+        code:
+          type: string
+          description: "Id of the technical exception"
+          example: 500
+        message:
+          type: string
+          description: "Technical message"
+          example: "TypeError"
+        nativeMessage:
+          type: string
+          description: "Native error message"
+          example: "no implicit conversion of String into Integer"
+        trackid:
+          type: string
+          description: "Track id of transaction process"
+          example: "rails/app/backtrace/error:122"

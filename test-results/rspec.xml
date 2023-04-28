@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rspec" tests="2" skipped="0" failures="0" errors="0" time="0.042106" timestamp="2023-04-12T12:00:00-03:00" hostname="SA19606">
+<properties>
+<property name="seed" value="8327"/>
+</properties>
+<testcase classname="spec.system.swagger_test_spec" name="Try a request to swagger routes info route succesfully" file="./spec/system/swagger_test_spec.rb" time="0.038753"></testcase>
+<testcase classname="spec.system.swagger_test_spec" name="Try a request to swagger routes info route swagger route succesfully" file="./spec/system/swagger_test_spec.rb" time="0.001784"></testcase>
+</testsuite>

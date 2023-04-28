@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ea-op-ful-cloud-swagger-fe-ing
+  namespace: cloud
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/ea/operational/fulfillment/cloud/swagger"
+        backend:
+          service:
+            name: ea-op-ful-cloud-swagger-fe-svc
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/ea/operational/fullfilment/cloud/swagger/info"
+        backend:
+          service:
+            name: ea-op-ful-cloud-swagger-fe-svc
+            port:
+              number: 80
