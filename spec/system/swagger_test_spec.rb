@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Try a request to swagger routes' do
   context 'info route' do
     it 'succesfully' do
-      get '/ea/operational/fulfillment/cloud/swagger/info'
+      get '/swagger/info'
 
       parsed_response = JSON.parse(response.body)
 
@@ -14,12 +14,9 @@ describe 'Try a request to swagger routes' do
 
   context 'swagger route' do
     it 'succesfully' do
-      get '/ea/operational/fulfillment/cloud/swagger/info'
+      visit rswag_ui_path
 
-      parsed_response = JSON.parse(response.body)
-
-      expect(response.status).to eq 200
+      expect(page).to have_content 'Virtual Machine API'
     end
-  end
   end
 end
