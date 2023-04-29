@@ -6,8 +6,8 @@ Rswag::Ui.configure do |c|
   # NOTE: If you're using rspec-api to expose Swagger files (under swagger_root) as JSON or YAML endpoints,
   # then the list below should correspond to the relative paths for those endpoints
 
-  c.swagger_endpoint '/ea/operational/fulfillment/cloud/swagger/v1/ea-op-ful-cloud-vm-api.yaml', 'API Virtual Machine V1'
-  c.swagger_endpoint '/ea/operational/fulfillment/cloud/swagger/v1/ea-op-ful-cloud-control-api.yaml', 'API Control V1'
+  c.swagger_endpoint '/swagger/v1/vm-api.yaml', 'API Virtual Machine V1'
+  c.swagger_endpoint '/swagger/v1/control-api.yaml', 'API Control V1'
 
   # Add Basic Auth in case your API is private
   # c.basic_auth_enabled = true

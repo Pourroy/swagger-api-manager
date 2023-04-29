@@ -1,4 +1,4 @@
-class Ea::Operational::Fulfillment::ApiController < ApplicationController
+class ApiController < ApplicationController
   def info
     env = Rails.env
     version = ENV['APP_VERSION']

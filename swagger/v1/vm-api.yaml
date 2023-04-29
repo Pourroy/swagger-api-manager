@@ -4,17 +4,15 @@ info:
   version: 1.0.0
   title: Virtual Machine API
   description: |-
-    Fulfillment Cloud - Virtual Machine API
+    Swagger Manager - Virtual Machine API
 
     Some useful links:
-    - [Repository](https://dev.azure.com/locaweb/apps-ea-op-fulfillment/_git/ea-op-ful-cloud-swagger-fe)
-    - [Wiki](https://dev.azure.com/locaweb/apps-ea-op-fulfillment/_wiki/wikis/apps-ea-op-fulfillment.wiki/9331/Swagger)
+    - [Repository](https://github.com/Pourroy/swagger-api-manager)
   contact:
-    email: luiz.fel@locaweb.com.br
-    x-technical-owner: "ruan.afonso@locaweb.com.br"
+    x-technical-owner: "pourroycontatos@hotmail.com"
 
 servers:
-  - url: http://10.90.138.20/ea/operational/fulfillment/v1
+  - url: http://localhost:4000/api/v1
 
 security:
   - ApiKeyAuth: []

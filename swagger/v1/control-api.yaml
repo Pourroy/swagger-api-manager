@@ -4,17 +4,15 @@ info:
   version: 1.0.0
   title: Control API
   description: |-
-    Fulfillment Cloud - Control API
+    Swagger Manager - Control API
 
     Some useful links:
-    - [Repository](https://dev.azure.com/locaweb/apps-ea-op-svc-ful-cloud/_git/ea-op-ful-cloud-control-api)
-    - [Wiki](https://dev.azure.com/locaweb/apps-ea-op-svc-ful-cloud/_wiki/wikis/apps-ea-op-svc-ful-cloud.wiki/7733/Create-Control)
+    - [Repository](https://github.com/Pourroy/swagger-api-manager )
   contact:
-    email: luiz.fel@locaweb.com.br
-    x-technical-owner: 'ruan.afonso@locaweb.com.br'
+    x-technical-owner: 'pourroycontatos@hotmail.com'
 
 servers:
-  - url: http://10.90.138.20/ea/operational/fulfillment/v1
+  - url: http://localhost:4000/api/v1
 
 security:
   - ApiKeyAuth: []
@@ -49,7 +47,7 @@ paths:
           $ref: '#/components/responses/403-Forbidden'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/controls/cloud-inits:
+  /controls/cloud-inits:
     post:
       tags:
         - Controls
@@ -67,7 +65,7 @@ paths:
           $ref: '#/components/responses/404-NotFound'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/controls/{transactionId}:
+  /controls/{transactionId}:
     put:
       tags:
         - Controls
@@ -94,7 +92,7 @@ paths:
           $ref: '#/components/responses/403-Forbidden'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/controls/{transactionId}/histories:
+  /controls/{transactionId}/histories:
     get:
       tags:
         - Control Histories
@@ -117,7 +115,7 @@ paths:
           $ref: '#/components/responses/403-Forbidden'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/controls-histories/{id}:
+  /controls-histories/{id}:
     get:
       tags:
         - Control Histories
@@ -137,7 +135,7 @@ paths:
           $ref: '#/components/responses/403-Forbidden'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/controls/info:
+  /controls/info:
     get:
       tags:
         - Info
@@ -154,7 +152,7 @@ paths:
           $ref: '#/components/responses/403-Forbidden'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/templates:
+  /templates:
     get:
       tags:
         - Templates
@@ -179,7 +177,7 @@ paths:
           $ref: '#/components/responses/403-Forbidden'
         500:
           $ref: '#/components/responses/500-Exception'
-  /cloud/templates/statuses:
+  /templates/statuses:
     get:
       tags:
         - Templates
