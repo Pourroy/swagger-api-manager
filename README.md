@@ -14,5 +14,5 @@ bundle install
 ### Acessing the application
 
 ```
-http://yourhost:yourport/ea/operational/fulfillment/swagger/cloud/index.html
+http://yourhost:yourport/swagger/cloud/index.html
 ```
