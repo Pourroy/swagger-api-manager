@@ -28,9 +28,16 @@ This service is responsible for translating attribute names and their respective
 bundle install
 ```
 
+### Setup Database
+```
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
 ### Start application:
 ```
-rake sneakers:run
+rails server
 ```
 
 # MS
