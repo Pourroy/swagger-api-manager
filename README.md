@@ -1,5 +1,6 @@
 ## ABOUT
-This service is responsible for translating attribute names and their respective values to generate interface of the legacy system with the CloudStack environment.
+This project is an Swagger-docs register of all APIs in the cross-architeture project. Swagger-fe has the function to present a documentation
+of all routes of the APIs, their HTTP verbs and  inputs/outputs Payloads. This app can do too some tests and start a http request with custom payloads for the real application, in this way, starting all pipeline process.
 
 ## Gems
 
@@ -18,7 +19,6 @@ This service is responsible for translating attribute names and their respective
 | Ruby | 3.0.3 |
 | Ruby on Rails | 7.0.3.1 |
 | rubocop-rails ||
-| sneakers ||
 
 
 ## Install project
