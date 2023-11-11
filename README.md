@@ -7,15 +7,13 @@ of all routes of the APIs, their HTTP verbs and  inputs/outputs Payloads. This a
 | Ressource | Version|
 |:---|:---:|
 | bootsnap | 1.4.4 |
-| bunny ||
 | dotenv-rails ||
-| json ||
-| jsonpath | ~1.1.2 |
-| jbuilder ||
-| pg ||
 | puma | 5.0 |
-| redis ||
-| rest-client ||
+| rspec-rails ||
+| rswag ||
+| rswag-api ||
+| rswag-ui ||
+| swagger-docs ||
 | Ruby | 3.0.3 |
 | Ruby on Rails | 7.0.3.1 |
 | rubocop-rails ||
